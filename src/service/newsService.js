@@ -1,6 +1,6 @@
-import News from "../model/News.js"
+import News from '../model/News.js';
 
-const createNews = async (news) => await News.create(news)
-const findAll = async () => await News.find()
+const createNews = async (news) => await News.create(news);
+const findAll = async () => await News.find();
 
-export {createNews, findAll}
+export {createNews, findAll};

@@ -6,7 +6,7 @@ const router = Router()
 
 router.post("/", userController.create)
 router.get("/", userController.findAllUser)
-router.get("/:id", validId, validUser,userController.findUserById)
+router.get("/:id", validId, validUser, userController.findUserById)
 router.patch("/:id", userController.updateUser)
 
 

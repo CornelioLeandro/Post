@@ -1,5 +1,5 @@
 
-import {createNews, findAll , countNews} from '../service/newsService.js';
+import {createNews, findAll} from '../service/newsService.js';
 
 class newsController {
 
@@ -10,7 +10,7 @@ class newsController {
         title,
         text,
         banner,
-        user: req.userId
+        user: req.userId // req.userID vem de authTokenSession router
       });
             
       res.status(201).send(201);
@@ -21,51 +21,14 @@ class newsController {
 
   static getAll = async(req, res) => {
     try{
-      let {limit, offset} = req.query;
+      let {limit = 5, page = 1} = req.query;
+
       limit = Number(limit);
-      offset = Number(offset);
+      page = Number(page);
 
-      console.log(limit);
-      console.log(offset);
+      const news  = await findAll(page, limit);
 
-      if(limit){
-        limit = 5;
-      }
-
-      if(offset){
-        offset = 0;
-      }
-
-      const news  = await findAll(offset, limit);
-      const total = await countNews;
-      const currentUtl = req.baseUrl;
-      console.log(news);
-
-      const next = offset + limit;
-      const nextUrl = next < total ? `${currentUtl}?limit=${limit}&offset=${next}` : null;
-
-      const previus = offset - limit < 0 ? null : offset - limit;
-      const previusUrl = previus < total ? `${currentUtl}?limit=${limit}&offset=${previus}` : null;
-
-      res.status(200).send({
-        nextUrl,
-        previusUrl,
-        limit,
-        offset,
-        total,
-  
-        results: news.map(newsItem => ({
-          id: newsItem._id,
-          title: newsItem.title,
-          text: newsItem.text,
-          banner: newsItem.banner,
-          likes: newsItem.likes,
-          comments: newsItem.comments
-          // userName: newsItem.user.name,
-          // userAvatar: newsItem.user.avatar,
-        })
-        )}
-      );
+      res.status(200).send({news});
     }catch(erro){
       res.status(500).send({message: erro.message});
     }   

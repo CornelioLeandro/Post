@@ -6,18 +6,13 @@ const login = async (req, res) => {
     const {email, password} = req.body;
 
     const user = await findByEmail(email);
-        
-    const passwordIsValid = await bcrypt.compare(password , user.password);
-
-    const token = generateToken(user.id);
-
-    console.log(passwordIsValid);
-
+    await bcrypt.compare(password , user.password);
+    const token = generateToken(user.id);  
+    
     res.status(200).send({token});
   } catch (erro) {
     res.status(500).send({message: erro.message});
   }
-
 };
 
 export {login};

@@ -9,8 +9,7 @@ const authTokenSession = async (req, res, next) => {
 
     if(!authorization){
       return res.status(401).send({message: 'Authorization empty or null'});
-    }
-              
+    }      
     const parts = authorization.split(' ');
               
     if(parts.length !== 2 ){
@@ -29,22 +28,16 @@ const authTokenSession = async (req, res, next) => {
       }
       const user = await userService.findById(decoded.id);
 
-      console.log(user);
-
       if(!user || !user.id ){
         return res.status(401).send({message: 'invalid user'});
       }
 
-      req.userId = user._id;
-      console.log(decoded);
+      req.userId = user.id;
       next();
     });       
   }catch(erro){
     res.status(500).send({message: erro.message});
   }
-
-    
- 
 };
 
 export default authTokenSession;

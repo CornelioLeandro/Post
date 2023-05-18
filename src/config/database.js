@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import { config } from "dotenv";
+import mongoose from 'mongoose';
+import { config } from 'dotenv';
 config();
 
 const connectDB = async () => {
@@ -7,7 +7,7 @@ const connectDB = async () => {
     useNewUrlParser: true,
     useUnifiedTopology: true
   });
-  console.log("Mongoose connection");
+  console.log('Mongoose connection');
 };
 
 export default connectDB;
